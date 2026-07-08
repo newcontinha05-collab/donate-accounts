@@ -13,7 +13,7 @@ services:
       - WORKER_SECRET=donate-worker-2025
 
     networks:
-      - CineBotNet
+      - BOTSTRAEFIK
 
     deploy:
       mode: replicated
@@ -48,7 +48,7 @@ services:
       - donate_sessions:/app/sessions
 
     networks:
-      - CineBotNet
+      - BOTSTRAEFIK
 
     deploy:
       mode: replicated
@@ -60,10 +60,10 @@ services:
 ## ─── Volumes ────────────────────────────────────────────────────────────── ##
 volumes:
   donate_sessions:
-    external: false
+    driver: local
 
 ## ─── Rede ───────────────────────────────────────────────────────────────── ##
 networks:
-  CineBotNet:
+  BOTSTRAEFIK:
     external: true
-    name: CineBotNet
+    name: BOTSTRAEFIK
