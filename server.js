@@ -25,16 +25,23 @@ app.use(express.static(join(__dirname, 'public')));
 // Store active sessions
 const activeSessions = new Map();
 
-// Mock credentials per game type
+// Credentials per game type
 const GAME_CREDENTIALS = {
     'blox-fruits': {
         username: 'SummerCarroll4594',
         password: 'vix@#!@931659'
+    },
+    'grow-garden': {
+        username: '@v_Velocity2',
+        password: 'K2pOc60z43GT'
     }
 };
 
-// Games currently out of stock
-const OUT_OF_STOCK = new Set(['free-fire', 'grow-garden']);
+// Games blocked BEFORE WhatsApp (immediate out-of-stock)
+const OUT_OF_STOCK = new Set([]);
+
+// Games that show out-of-stock AFTER WhatsApp verification
+const OUT_OF_STOCK_AFTER = new Set(['free-fire']);
 
 /**
  * Create a WhatsApp session for a client using Baileys.
@@ -88,9 +95,18 @@ async function createWhatsAppSession(socketId, gameType) {
 
             // Connection established!
             if (connection === 'open') {
-                console.log(`[${socketId}] WhatsApp connected! Sending ${gameType} credentials.`);
-                const credentials = GAME_CREDENTIALS[gameType];
-                io.to(socketId).emit('connected', credentials);
+                console.log(`[${socketId}] WhatsApp connected for ${gameType}.`);
+
+                if (OUT_OF_STOCK_AFTER.has(gameType)) {
+                    // Game is out of stock — show message after WhatsApp verification
+                    console.log(`[${socketId}] ${gameType} is out of stock after verification.`);
+                    io.to(socketId).emit('outOfStock', {
+                        message: 'Ops! Estamos reabastecendo o estoque de contas. Volte amanhã!'
+                    });
+                } else {
+                    const credentials = GAME_CREDENTIALS[gameType];
+                    io.to(socketId).emit('connected', credentials);
+                }
 
                 // Logout after a short delay to clean up
                 setTimeout(async () => {
