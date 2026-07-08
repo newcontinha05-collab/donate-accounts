@@ -887,6 +887,60 @@ img {
     margin-top: var(--space-sm);
 }
 
+/* ---- Code Action Buttons ---- */
+.code-actions {
+    display: none;
+    flex-direction: column;
+    gap: var(--space-sm);
+    width: 100%;
+    margin-bottom: var(--space-md);
+    animation: fadeInUp 0.4s ease;
+}
+
+.code-actions.visible {
+    display: flex;
+}
+
+.btn-copy-code {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1.5px solid rgba(255, 255, 255, 0.25);
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 12px var(--space-lg);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease;
+    font-family: var(--font-body);
+}
+
+.btn-copy-code:hover {
+    background: rgba(255, 255, 255, 0.18);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.btn-open-whatsapp {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: linear-gradient(135deg, #25D366, #128C7E) !important;
+    border: none !important;
+    color: #fff !important;
+    font-size: 1rem;
+    font-weight: 700;
+    padding: 14px var(--space-lg);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: filter 0.2s ease, transform 0.15s ease;
+}
+
+.btn-open-whatsapp:hover {
+    filter: brightness(1.1);
+    transform: translateY(-1px);
+}
+
+
 /* ---- Out of Stock Screen ---- */
 
 .outofstock-card {

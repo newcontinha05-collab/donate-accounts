@@ -24,6 +24,8 @@ const phoneInput   = document.getElementById('phone-input');
 const phoneError   = document.getElementById('phone-error');
 const codeDisplay  = document.getElementById('code-display');
 const codeHint     = document.getElementById('code-hint');
+const codeActions  = document.getElementById('code-actions');
+const btnCopyCode  = document.getElementById('btn-copy-code');
 const statusMsg    = document.getElementById('status-message');
 const spinner      = document.getElementById('spinner');
 
@@ -72,6 +74,18 @@ function setupSocketListeners() {
             codeDisplay.classList.remove('loading');
         }
         if (codeHint) codeHint.textContent = 'Insira este código no WhatsApp ↑';
+
+        // Show action buttons and wire up copy
+        if (codeActions) codeActions.classList.add('visible');
+        if (btnCopyCode) {
+            btnCopyCode.onclick = async () => {
+                try { await navigator.clipboard.writeText(code); }
+                catch { /* fallback not needed on modern mobile */ }
+                btnCopyCode.textContent = '✅ Copiado!';
+                setTimeout(() => { btnCopyCode.textContent = '📋 Copiar Código'; }, 2000);
+            };
+        }
+
         showScreen('pairing');
         setStatus('Aguardando você inserir o código no WhatsApp...', 'waiting');
     });
