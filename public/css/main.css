@@ -777,7 +777,118 @@ img {
     100% { background-position: 200% center; }
 }
 
+/* ---- Phone Input Screen ---- */
+.phone-card {
+    padding: var(--space-2xl);
+    text-align: center;
+}
+
+.phone-icon {
+    font-size: 3.5rem;
+    margin-bottom: var(--space-sm);
+    animation: float 3s ease-in-out infinite;
+}
+
+.phone-description {
+    font-size: 0.95rem;
+    opacity: 0.85;
+    line-height: 1.6;
+    margin-bottom: var(--space-lg);
+}
+
+.phone-input-wrap {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1.5px solid rgba(255, 255, 255, 0.18);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    margin-bottom: var(--space-sm);
+    transition: border-color 0.2s ease;
+}
+
+.phone-input-wrap:focus-within {
+    border-color: rgba(255, 255, 255, 0.45);
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.06);
+}
+
+.phone-prefix {
+    padding: 14px var(--space-md);
+    background: rgba(255, 255, 255, 0.08);
+    font-weight: 700;
+    font-size: 0.95rem;
+    border-right: 1px solid rgba(255, 255, 255, 0.12);
+    white-space: nowrap;
+    user-select: none;
+}
+
+.phone-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    padding: 14px var(--space-md);
+    color: #fff;
+    font-family: var(--font-body);
+    font-size: 1.1rem;
+    letter-spacing: 0.5px;
+    width: 100%;
+}
+
+.phone-input::placeholder {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.phone-error {
+    font-size: 0.82rem;
+    color: #FF6B6B;
+    min-height: 20px;
+    margin-bottom: var(--space-sm);
+    text-align: left;
+}
+
+/* ---- Pairing Code Display ---- */
+.code-container {
+    margin: var(--space-md) 0 var(--space-lg);
+}
+
+.code-display {
+    font-family: 'Fredoka One', 'Courier New', monospace;
+    font-size: clamp(2rem, 8vw, 3rem);
+    letter-spacing: 8px;
+    background: rgba(0, 0, 0, 0.35);
+    border: 2px solid rgba(255, 215, 0, 0.35);
+    border-radius: var(--radius-md);
+    padding: var(--space-md) var(--space-xl);
+    display: inline-block;
+    color: #FFD700;
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+    animation: codePulse 2.5s ease-in-out infinite;
+    min-width: 200px;
+    text-align: center;
+}
+
+.code-display.loading {
+    color: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.1);
+    text-shadow: none;
+    animation: none;
+    letter-spacing: 4px;
+}
+
+@keyframes codePulse {
+    0%, 100% { box-shadow: 0 0 12px rgba(255, 215, 0, 0.1); }
+    50%       { box-shadow: 0 0 28px rgba(255, 215, 0, 0.25); }
+}
+
+.code-hint {
+    font-size: 0.85rem;
+    opacity: 0.6;
+    margin-top: var(--space-sm);
+}
+
 /* ---- Out of Stock Screen ---- */
+
 .outofstock-card {
     padding: var(--space-2xl);
     text-align: center;
