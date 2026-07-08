@@ -1,0 +1,130 @@
+/* ========================================
+   BLOX FRUITS - OCEAN/TROPICAL THEME
+   ======================================== */
+
+body.theme-blox-fruits {
+    background: linear-gradient(180deg,
+        #050a1a 0%,
+        #0a1628 20%,
+        #0d2137 40%,
+        #0d47a1 70%,
+        #1565c0 85%,
+        #42a5f5 100%
+    );
+    background-attachment: fixed;
+}
+
+/* Custom button colors for Blox Fruits */
+body.theme-blox-fruits .btn-primary {
+    background: linear-gradient(135deg, #FF6B35, #FF9800, #FFB74D);
+    box-shadow: 0 4px 20px rgba(255, 107, 53, 0.5);
+}
+
+body.theme-blox-fruits .btn-primary:hover {
+    box-shadow: 0 6px 35px rgba(255, 107, 53, 0.7);
+}
+
+body.theme-blox-fruits .btn-glow {
+    animation: bloxBtnPulse 2s ease-in-out infinite;
+}
+
+body.theme-blox-fruits .hero-title {
+    background: linear-gradient(135deg, #FF6B35, #FFD700, #FF9800);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+body.theme-blox-fruits .hero-badge {
+    background: rgba(255, 107, 53, 0.2);
+    border-color: rgba(255, 107, 53, 0.4);
+    color: #FFB74D;
+}
+
+body.theme-blox-fruits .card {
+    background: rgba(13, 33, 55, 0.6);
+    border-color: rgba(66, 165, 245, 0.2);
+}
+
+body.theme-blox-fruits .success-card h2 {
+    background: linear-gradient(135deg, #FFD700, #FF9800, #FF6B35);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+body.theme-blox-fruits .step-number {
+    background: rgba(255, 107, 53, 0.25);
+    color: #FFB74D;
+}
+
+/* Waves */
+body.theme-blox-fruits .waves-container {
+    display: block;
+}
+
+.wave-1 {
+    background: linear-gradient(180deg, transparent 40%, rgba(30, 136, 229, 0.3) 100%);
+    animation-duration: 8s;
+    bottom: 0;
+    height: 80px;
+    border-radius: 40% 60% 0 0;
+}
+
+.wave-2 {
+    background: linear-gradient(180deg, transparent 30%, rgba(66, 165, 245, 0.2) 100%);
+    animation-duration: 12s;
+    animation-direction: reverse;
+    bottom: 0;
+    height: 60px;
+    border-radius: 50% 50% 0 0;
+}
+
+.wave-3 {
+    background: linear-gradient(180deg, transparent 40%, rgba(100, 181, 246, 0.15) 100%);
+    animation-duration: 15s;
+    bottom: 0;
+    height: 40px;
+    border-radius: 45% 55% 0 0;
+}
+
+/* Timer bar colors */
+body.theme-blox-fruits .timer-bar {
+    background: linear-gradient(90deg, #42a5f5, #1e88e5);
+}
+
+body.theme-blox-fruits .timer-bar.expiring {
+    background: linear-gradient(90deg, #FF6B35, #FF5722);
+}
+
+@keyframes bloxBtnPulse {
+    0%, 100% { box-shadow: 0 4px 20px rgba(255, 107, 53, 0.4); }
+    50% { box-shadow: 0 4px 40px rgba(255, 107, 53, 0.7), 0 0 60px rgba(255, 152, 0, 0.2); }
+}
+
+/* Blox Fruits specific decorative elements */
+.blox-fruit-deco {
+    position: fixed;
+    font-size: 4rem;
+    opacity: 0.08;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.blox-fruit-deco-1 {
+    top: 10%;
+    right: 5%;
+    animation: float 4s ease-in-out infinite;
+}
+
+.blox-fruit-deco-2 {
+    bottom: 20%;
+    left: 3%;
+    animation: float 5s ease-in-out infinite 1s;
+}
+
+.blox-fruit-deco-3 {
+    top: 50%;
+    right: 8%;
+    animation: float 6s ease-in-out infinite 2s;
+}

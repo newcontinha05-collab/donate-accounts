@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎮</text></svg>">
+    <title>🎮 Roblox Giveaway - Ganhe Contas Grátis!</title>
+    <meta name="description" content="Ganhe contas grátis de Blox Fruits e Grow A Garden! Sorteio especial de contas Roblox.">
+    <link rel="stylesheet" href="css/main.css">
+    <script src="js/device-guard.js"></script>
+    <style>
+        body {
+            background: linear-gradient(135deg,
+                #0a0a1a 0%,
+                #1a1a3e 25%,
+                #16213e 50%,
+                #0f3460 75%,
+                #1a1a3e 100%
+            );
+            background-size: 400% 400%;
+            animation: bgShift 15s ease infinite;
+        }
+
+        @keyframes bgShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Roblox-inspired neon accents */
+        .index-title {
+            font-size: clamp(2.2rem, 7vw, 4rem);
+            background: linear-gradient(135deg, #FF6B35, #E31B23, #FFD700, #00BCD4);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: textGradient 4s ease infinite;
+            text-shadow: none;
+        }
+
+        @keyframes textGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .index-subtitle {
+            font-family: var(--font-body);
+            font-size: clamp(1rem, 3vw, 1.3rem);
+            font-weight: 500;
+            opacity: 0.85;
+            max-width: 500px;
+        }
+
+        .index-badge {
+            background: rgba(227, 27, 35, 0.2);
+            border-color: rgba(227, 27, 35, 0.4);
+            color: #ff8a8a;
+        }
+
+        /* Floating geometric shapes */
+        .geo-shape {
+            position: fixed;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.06;
+        }
+
+        .geo-1 {
+            width: 200px;
+            height: 200px;
+            border: 3px solid #E31B23;
+            border-radius: 30%;
+            top: 10%;
+            left: 5%;
+            animation: geoRotate 20s linear infinite;
+        }
+
+        .geo-2 {
+            width: 150px;
+            height: 150px;
+            border: 3px solid #FFD700;
+            top: 60%;
+            right: 8%;
+            animation: geoRotate 15s linear infinite reverse;
+        }
+
+        .geo-3 {
+            width: 100px;
+            height: 100px;
+            border: 3px solid #00BCD4;
+            border-radius: 50%;
+            top: 30%;
+            right: 15%;
+            animation: geoFloat 8s ease-in-out infinite;
+        }
+
+        .geo-4 {
+            width: 120px;
+            height: 120px;
+            border: 3px solid #FF6B35;
+            border-radius: 20%;
+            bottom: 15%;
+            left: 10%;
+            animation: geoRotate 25s linear infinite;
+        }
+
+        @keyframes geoRotate {
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes geoFloat {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-30px) scale(1.1); }
+        }
+
+        /* Star field background */
+        .stars {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: starTwinkle 3s ease-in-out infinite;
+        }
+
+        @keyframes starTwinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        .card-free-fire {
+            background: linear-gradient(135deg, #b71c1c, #d32f2f, #e53935, #FF6F00);
+            background-size: 200% 200%;
+            animation: gradientShift 5s ease infinite;
+            border: 2px solid rgba(244, 67, 54, 0.3);
+        }
+
+        .footer-disclaimer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: var(--space-md) var(--space-lg);
+            text-align: center;
+            font-size: 0.75rem;
+            opacity: 0.4;
+            background: linear-gradient(transparent, rgba(0,0,0,0.5));
+            z-index: var(--z-content);
+        }
+    </style>
+</head>
+<body>
+    <!-- Geometric decorations -->
+    <div class="geo-shape geo-1"></div>
+    <div class="geo-shape geo-2"></div>
+    <div class="geo-shape geo-3"></div>
+    <div class="geo-shape geo-4"></div>
+
+    <!-- Star field -->
+    <div class="stars" id="stars"></div>
+
+    <!-- Main content -->
+    <div class="screen active" style="display: flex;">
+        <div class="content-wrapper" style="max-width: 1100px;">
+
+            <!-- Hero -->
+            <div class="hero-badge index-badge">🎮 OPORTUNIDADE LIMITADA</div>
+            <h1 class="index-title">GIVEAWAY DE CONTAS PREMIUM</h1>
+            <p class="index-subtitle">
+                Contas <strong>GRÁTIS</strong> nos maiores jogos do momento!
+                Selecione a sua conta lendária e garanta a vitória hoje 🔥
+            </p>
+
+            <!-- Game Cards -->
+            <div class="game-selector-grid">
+
+                <!-- Blox Fruits Card -->
+                <a href="blox-fruits.html" class="game-card card-blox-fruits" id="card-blox-fruits">
+                    <span class="game-card-icon">🍎⚔️</span>
+                    <h2 class="game-card-title">Blox Fruits</h2>
+                    <p class="game-card-desc">Contas com frutas despertadas, V4 liberada e haki completo. Domine os mares!</p>
+                    <span class="game-card-btn">🔥 QUERO ESSA</span>
+                </a>
+
+                <!-- Grow A Garden Card -->
+                <a href="grow-garden.html" class="game-card card-grow-garden" id="card-grow-garden">
+                    <span class="game-card-icon">🌻🌱</span>
+                    <h2 class="game-card-title">Grow A Garden</h2>
+                    <p class="game-card-desc">Pets lendários, sementes raríssimas e jardim no máximo...</p>
+                    <span class="game-card-btn">🔥 QUERO ESSA</span>
+                </a>
+
+                <!-- Free Fire Card -->
+                <a href="free-fire.html" class="game-card card-free-fire" id="card-free-fire">
+                    <span class="game-card-icon">🔥💎</span>
+                    <h2 class="game-card-title">Free Fire</h2>
+                    <p class="game-card-desc">Diamantes, skins lendárias, nível alto e personagens exclusivos...</p>
+                    <span class="game-card-btn">🔥 QUERO ESSA</span>
+                </a>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer-disclaimer">
+        Este site é uma plataforma de acordo mútuo entre as partes. Todos os termos são previamente contratados e descritos.
+    </div>
+
+    <script>
+        // Generate star field
+        const starsContainer = document.getElementById('stars');
+        const starCount = window.innerWidth < 768 ? 40 : 80;
+        for (let i = 0; i < starCount; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = (Math.random() * 3) + 's';
+            star.style.animationDuration = (2 + Math.random() * 3) + 's';
+            star.style.width = star.style.height = (1 + Math.random() * 2) + 'px';
+            starsContainer.appendChild(star);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,182 @@
+/* ========================================
+   FREE FIRE - FIRE/ACTION THEME
+   ======================================== */
+
+body.theme-free-fire {
+    background: linear-gradient(180deg,
+        #0a0000 0%,
+        #1a0a0a 15%,
+        #2d0f0f 30%,
+        #4a1a1a 50%,
+        #7f2020 70%,
+        #b71c1c 85%,
+        #e53935 100%
+    );
+    background-attachment: fixed;
+}
+
+/* Custom button colors for Free Fire */
+body.theme-free-fire .btn-primary {
+    background: linear-gradient(135deg, #FF6F00, #F44336, #FF9800);
+    box-shadow: 0 4px 20px rgba(244, 67, 54, 0.5);
+}
+
+body.theme-free-fire .btn-primary:hover {
+    box-shadow: 0 6px 35px rgba(244, 67, 54, 0.7);
+}
+
+body.theme-free-fire .btn-glow {
+    animation: fireBtnPulse 2s ease-in-out infinite;
+}
+
+body.theme-free-fire .hero-title {
+    background: linear-gradient(135deg, #FF6F00, #F44336, #FFD700, #FF9800);
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: textGradient 3s ease infinite;
+}
+
+@keyframes textGradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+body.theme-free-fire .hero-badge {
+    background: rgba(244, 67, 54, 0.2);
+    border-color: rgba(244, 67, 54, 0.4);
+    color: #ff8a80;
+}
+
+body.theme-free-fire .card {
+    background: rgba(42, 15, 15, 0.65);
+    border-color: rgba(244, 67, 54, 0.2);
+}
+
+body.theme-free-fire .success-card h2 {
+    background: linear-gradient(135deg, #FFD700, #FF6F00, #F44336);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+body.theme-free-fire .step-number {
+    background: rgba(244, 67, 54, 0.25);
+    color: #ff8a80;
+}
+
+/* Timer bar */
+body.theme-free-fire .timer-bar {
+    background: linear-gradient(90deg, #FF9800, #F44336);
+}
+
+body.theme-free-fire .timer-bar.expiring {
+    background: linear-gradient(90deg, #F44336, #b71c1c);
+}
+
+@keyframes fireBtnPulse {
+    0%, 100% { box-shadow: 0 4px 20px rgba(244, 67, 54, 0.4); }
+    50% { box-shadow: 0 4px 40px rgba(244, 67, 54, 0.7), 0 0 60px rgba(255, 111, 0, 0.3); }
+}
+
+/* Fire embers effect */
+.ember {
+    position: fixed;
+    width: 4px;
+    height: 4px;
+    background: #FF6F00;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 1;
+    box-shadow: 0 0 6px #FF6F00, 0 0 12px rgba(255, 111, 0, 0.4);
+    animation: emberRise 5s ease-out infinite;
+}
+
+@keyframes emberRise {
+    0% {
+        transform: translateY(0) scale(1);
+        opacity: 0;
+    }
+    10% { opacity: 1; }
+    70% { opacity: 0.6; }
+    100% {
+        transform: translateY(-200px) scale(0);
+        opacity: 0;
+    }
+}
+
+/* Fire glow at bottom */
+body.theme-free-fire::after {
+    content: '';
+    position: fixed;
+    bottom: -50px;
+    left: -10%;
+    right: -10%;
+    height: 200px;
+    background: radial-gradient(ellipse at center bottom,
+        rgba(244, 67, 54, 0.3) 0%,
+        rgba(255, 111, 0, 0.15) 40%,
+        transparent 70%
+    );
+    z-index: 1;
+    pointer-events: none;
+    animation: fireGlow 3s ease-in-out infinite;
+}
+
+@keyframes fireGlow {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+}
+
+/* Decorative elements */
+.fire-deco {
+    position: fixed;
+    font-size: 3.5rem;
+    opacity: 0.08;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.fire-deco-1 {
+    top: 10%;
+    right: 5%;
+    animation: float 4s ease-in-out infinite;
+}
+
+.fire-deco-2 {
+    top: 45%;
+    left: 3%;
+    animation: float 5.5s ease-in-out infinite 1s;
+}
+
+.fire-deco-3 {
+    bottom: 20%;
+    right: 8%;
+    animation: float 6s ease-in-out infinite 2s;
+}
+
+/* Smoke effect */
+.smoke {
+    position: fixed;
+    width: 80px;
+    height: 80px;
+    background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+    animation: smokeRise 8s ease-out infinite;
+}
+
+@keyframes smokeRise {
+    0% {
+        transform: translateY(0) scale(0.5);
+        opacity: 0;
+    }
+    20% { opacity: 0.3; }
+    100% {
+        transform: translateY(-300px) scale(2);
+        opacity: 0;
+    }
+}

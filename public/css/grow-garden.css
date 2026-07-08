@@ -1,0 +1,195 @@
+/* ========================================
+   GROW A GARDEN - NATURE/GARDEN THEME
+   ======================================== */
+
+body.theme-grow-garden {
+    background: linear-gradient(180deg,
+        #0a1a0a 0%,
+        #1a2e1a 15%,
+        #1b5e20 35%,
+        #2e7d32 55%,
+        #43a047 75%,
+        #66bb6a 90%,
+        #a5d6a7 100%
+    );
+    background-attachment: fixed;
+}
+
+/* Custom button colors for Grow A Garden */
+body.theme-grow-garden .btn-primary {
+    background: linear-gradient(135deg, #FFC107, #FF9800, #FFB74D);
+    color: #1b5e20;
+    box-shadow: 0 4px 20px rgba(255, 193, 7, 0.5);
+}
+
+body.theme-grow-garden .btn-primary:hover {
+    box-shadow: 0 6px 35px rgba(255, 193, 7, 0.7);
+}
+
+body.theme-grow-garden .btn-glow {
+    animation: gardenBtnPulse 2s ease-in-out infinite;
+}
+
+body.theme-grow-garden .hero-title {
+    background: linear-gradient(135deg, #FFC107, #FFEB3B, #FFD54F);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+body.theme-grow-garden .hero-badge {
+    background: rgba(255, 193, 7, 0.2);
+    border-color: rgba(255, 193, 7, 0.4);
+    color: #FFE082;
+}
+
+body.theme-grow-garden .card {
+    background: rgba(27, 48, 27, 0.6);
+    border-color: rgba(102, 187, 106, 0.2);
+}
+
+body.theme-grow-garden .success-card h2 {
+    background: linear-gradient(135deg, #FFD700, #FFC107, #FF9800);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+body.theme-grow-garden .step-number {
+    background: rgba(255, 193, 7, 0.2);
+    color: #FFE082;
+}
+
+/* Timer bar colors */
+body.theme-grow-garden .timer-bar {
+    background: linear-gradient(90deg, #66bb6a, #43a047);
+}
+
+body.theme-grow-garden .timer-bar.expiring {
+    background: linear-gradient(90deg, #FF9800, #FF5722);
+}
+
+/* Soil/ground at bottom */
+body.theme-grow-garden::after {
+    content: '';
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 80px;
+    background: linear-gradient(180deg,
+        transparent 0%,
+        rgba(62, 39, 35, 0.4) 40%,
+        rgba(62, 39, 35, 0.6) 100%
+    );
+    z-index: var(--z-waves);
+    pointer-events: none;
+}
+
+/* Grass tufts */
+.grass-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    z-index: 3;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.grass-blade {
+    position: absolute;
+    bottom: 0;
+    width: 4px;
+    background: linear-gradient(180deg, #66bb6a, #43a047);
+    border-radius: 2px 2px 0 0;
+    transform-origin: bottom center;
+    animation: grassSway 3s ease-in-out infinite;
+}
+
+@keyframes grassSway {
+    0%, 100% { transform: rotate(-5deg); }
+    50% { transform: rotate(5deg); }
+}
+
+@keyframes gardenBtnPulse {
+    0%, 100% { box-shadow: 0 4px 20px rgba(255, 193, 7, 0.4); }
+    50% { box-shadow: 0 4px 40px rgba(255, 193, 7, 0.7), 0 0 60px rgba(255, 193, 7, 0.2); }
+}
+
+/* Garden specific decorative elements */
+.garden-deco {
+    position: fixed;
+    font-size: 3.5rem;
+    opacity: 0.1;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.garden-deco-1 {
+    top: 8%;
+    left: 5%;
+    animation: float 5s ease-in-out infinite;
+}
+
+.garden-deco-2 {
+    top: 30%;
+    right: 4%;
+    animation: float 6s ease-in-out infinite 1.5s;
+}
+
+.garden-deco-3 {
+    bottom: 25%;
+    left: 8%;
+    animation: float 4.5s ease-in-out infinite 0.8s;
+}
+
+/* Fireflies effect */
+.firefly {
+    position: fixed;
+    width: 6px;
+    height: 6px;
+    background: #FFEB3B;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 2;
+    box-shadow: 0 0 10px #FFEB3B, 0 0 20px rgba(255, 235, 59, 0.5);
+    animation: fireflyFloat 8s ease-in-out infinite;
+}
+
+@keyframes fireflyFloat {
+    0% {
+        transform: translate(0, 0);
+        opacity: 0;
+    }
+    20% { opacity: 0.8; }
+    50% {
+        transform: translate(50px, -80px);
+        opacity: 0.4;
+    }
+    80% { opacity: 0.9; }
+    100% {
+        transform: translate(-30px, -150px);
+        opacity: 0;
+    }
+}
+
+/* Sun glow effect */
+.sun-glow {
+    position: fixed;
+    top: -100px;
+    right: -100px;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(255,193,7,0.15) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+    animation: sunPulse 5s ease-in-out infinite;
+}
+
+@keyframes sunPulse {
+    0%, 100% { opacity: 0.5; transform: scale(1); }
+    50% { opacity: 0.8; transform: scale(1.1); }
+}

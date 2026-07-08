@@ -1,0 +1,1321 @@
+/* ========================================
+   ROBLOX GIVEAWAY - GLOBAL DESIGN SYSTEM
+   ======================================== */
+
+/* Google Fonts import */
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Poppins:wght@400;500;600;700;800&display=swap');
+
+/* ---- CSS Custom Properties (Design Tokens) ---- */
+:root {
+    /* Typography */
+    --font-display: 'Fredoka One', cursive;
+    --font-body: 'Poppins', sans-serif;
+
+    /* Spacing */
+    --space-xs: 0.25rem;
+    --space-sm: 0.5rem;
+    --space-md: 1rem;
+    --space-lg: 1.5rem;
+    --space-xl: 2rem;
+    --space-2xl: 3rem;
+    --space-3xl: 4rem;
+
+    /* Border Radius */
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 20px;
+    --radius-xl: 28px;
+    --radius-full: 50%;
+
+    /* Shadows */
+    --shadow-sm: 0 2px 8px rgba(0,0,0,0.15);
+    --shadow-md: 0 4px 20px rgba(0,0,0,0.2);
+    --shadow-lg: 0 8px 40px rgba(0,0,0,0.3);
+    --shadow-glow: 0 0 30px rgba(255,255,255,0.15);
+
+    /* Transitions */
+    --transition-fast: 0.2s ease;
+    --transition-normal: 0.3s ease;
+    --transition-slow: 0.5s ease;
+
+    /* Z-Index */
+    --z-particles: 1;
+    --z-waves: 2;
+    --z-content: 10;
+    --z-modal: 100;
+    --z-confetti: 200;
+}
+
+/* ---- Reset & Base ---- */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    font-family: var(--font-body);
+    overflow-x: hidden;
+    min-height: 100vh;
+    color: #ffffff;
+    position: relative;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    line-height: 1.2;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul {
+    list-style: none;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* ---- Screen System ---- */
+.screen {
+    display: none;
+    min-height: 100vh;
+    width: 100%;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-xl) var(--space-md);
+}
+
+.screen.active {
+    display: flex;
+    animation: screenFadeIn 0.6s ease forwards;
+}
+
+.content-wrapper {
+    position: relative;
+    z-index: var(--z-content);
+    max-width: 600px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: var(--space-lg);
+}
+
+/* ---- Glassmorphic Cards ---- */
+.card {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    width: 100%;
+    box-shadow: var(--shadow-lg);
+    transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg), var(--shadow-glow);
+}
+
+/* ---- Hero Section ---- */
+.hero-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(10px);
+    padding: var(--space-sm) var(--space-lg);
+    border-radius: var(--radius-xl);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border: 1px solid rgba(255,255,255,0.2);
+    animation: float 3s ease-in-out infinite;
+}
+
+.hero-title {
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    text-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    line-height: 1.1;
+}
+
+.hero-subtitle {
+    font-family: var(--font-body);
+    font-size: clamp(1rem, 3vw, 1.4rem);
+    font-weight: 500;
+    opacity: 0.9;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
+/* ---- Prize Card ---- */
+.prize-card {
+    text-align: left;
+}
+
+.prize-icon {
+    font-size: 3rem;
+    margin-bottom: var(--space-sm);
+}
+
+.prize-card h3 {
+    font-family: var(--font-body);
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: var(--space-md);
+}
+
+.prize-list li {
+    padding: var(--space-sm) 0;
+    padding-left: var(--space-lg);
+    position: relative;
+    font-size: 0.95rem;
+    opacity: 0.9;
+}
+
+.prize-list li::before {
+    content: '✅';
+    position: absolute;
+    left: 0;
+}
+
+/* ---- Buttons ---- */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+    padding: var(--space-md) var(--space-xl);
+    border: none;
+    border-radius: var(--radius-xl);
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    position: relative;
+    overflow: hidden;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, transparent 50%);
+    opacity: 0;
+    transition: opacity var(--transition-fast);
+}
+
+.btn:hover::after {
+    opacity: 1;
+}
+
+.btn:active {
+    transform: scale(0.96);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #FF6B35, #FF8F5E);
+    color: white;
+    box-shadow: 0 4px 20px rgba(255, 107, 53, 0.4);
+    font-size: 1.2rem;
+    padding: var(--space-lg) var(--space-2xl);
+}
+
+.btn-primary:hover {
+    box-shadow: 0 6px 30px rgba(255, 107, 53, 0.6);
+    transform: translateY(-2px);
+}
+
+.btn-whatsapp {
+    background: linear-gradient(135deg, #25D366, #128C7E);
+    color: white;
+    box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+    font-size: 1.2rem;
+    padding: var(--space-lg) var(--space-2xl);
+    width: 100%;
+    max-width: 400px;
+}
+
+.btn-whatsapp:hover {
+    box-shadow: 0 6px 30px rgba(37, 211, 102, 0.6);
+    transform: translateY(-2px);
+}
+
+.btn-whatsapp svg {
+    width: 24px;
+    height: 24px;
+    fill: white;
+}
+
+.btn-copy {
+    background: rgba(255,255,255,0.15);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.3);
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.btn-copy:hover {
+    background: rgba(255,255,255,0.25);
+}
+
+.btn-copy.copied {
+    background: linear-gradient(135deg, #25D366, #128C7E) !important;
+    border-color: transparent;
+}
+
+/* Glow animation on buttons */
+.btn-glow {
+    animation: btnPulse 2s ease-in-out infinite;
+}
+
+/* ---- Pairing Section ---- */
+.pairing-card {
+    padding: var(--space-2xl);
+}
+
+.pairing-icon {
+    font-size: 3.5rem;
+    margin-bottom: var(--space-sm);
+}
+
+.pairing-card h2 {
+    margin-bottom: var(--space-sm);
+}
+
+.pairing-description {
+    font-size: 0.95rem;
+    opacity: 0.85;
+    margin-bottom: var(--space-lg);
+    line-height: 1.6;
+}
+
+/* Timer Bar */
+.timer-container {
+    width: 100%;
+    max-width: 400px;
+    margin: var(--space-lg) auto;
+}
+
+.timer-bar-bg {
+    width: 100%;
+    height: 6px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.timer-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #25D366, #00E676);
+    border-radius: 3px;
+    width: 100%;
+    transition: width 1s linear;
+}
+
+.timer-bar.expiring {
+    background: linear-gradient(90deg, #FF6B35, #FF5722);
+}
+
+.timer-text {
+    display: block;
+    font-size: 0.8rem;
+    opacity: 0.7;
+    margin-top: var(--space-xs);
+}
+
+/* Status */
+.status-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+    margin: var(--space-md) 0;
+}
+
+.spinner {
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255,255,255,0.2);
+    border-top-color: #25D366;
+    border-radius: var(--radius-full);
+    animation: spin 0.8s linear infinite;
+}
+
+.spinner.hidden {
+    display: none;
+}
+
+.status-text {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+.status-text.success {
+    color: #25D366;
+    opacity: 1;
+    font-weight: 600;
+}
+
+.status-text.error {
+    color: #FF5722;
+    opacity: 1;
+    font-weight: 600;
+}
+
+/* Steps Guide */
+.steps-guide {
+    width: 100%;
+    margin-top: var(--space-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+.step {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    text-align: left;
+    padding: var(--space-sm) 0;
+}
+
+.step-number {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    background: rgba(255,255,255,0.15);
+    border-radius: var(--radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-size: 0.9rem;
+}
+
+.step-text {
+    font-size: 0.9rem;
+    opacity: 0.85;
+}
+
+/* ---- Success Section ---- */
+.success-card {
+    padding: var(--space-2xl);
+}
+
+.success-icon {
+    font-size: 4rem;
+    animation: successBounce 0.6s ease;
+}
+
+.success-card h2 {
+    font-size: 2rem;
+    background: linear-gradient(135deg, #FFD700, #FFA000);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.success-subtitle {
+    font-size: 1rem;
+    opacity: 0.9;
+    margin-bottom: var(--space-md);
+}
+
+.credentials-card {
+    background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+    width: 100%;
+    margin: var(--space-md) 0;
+}
+
+.credential-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-sm) 0;
+    font-size: 0.95rem;
+}
+
+.credential-row + .credential-row {
+    border-top: 1px solid rgba(255,255,255,0.1);
+    margin-top: var(--space-sm);
+    padding-top: var(--space-md);
+}
+
+.credential-label {
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.credential-value {
+    font-family: 'Courier New', monospace;
+    background: rgba(255,255,255,0.08);
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--radius-sm);
+    word-break: break-all;
+    flex: 1;
+    text-align: left;
+}
+
+.success-note {
+    font-size: 0.85rem;
+    opacity: 0.7;
+    margin-top: var(--space-md);
+}
+
+/* ---- Back Button ---- */
+.back-button {
+    position: fixed;
+    top: var(--space-lg);
+    left: var(--space-lg);
+    z-index: var(--z-content);
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: white;
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: all var(--transition-normal);
+}
+
+.back-button:hover {
+    background: rgba(255,255,255,0.2);
+    transform: scale(1.1);
+}
+
+/* ---- Game Selector Cards (Index Page) ---- */
+.game-selector-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-xl);
+    width: 100%;
+    max-width: 900px;
+}
+
+@media (min-width: 768px) {
+    .game-selector-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.game-card {
+    position: relative;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    min-height: 320px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: var(--space-2xl) var(--space-xl);
+    gap: var(--space-md);
+}
+
+.game-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.3);
+    transition: background var(--transition-normal);
+}
+
+.game-card:hover {
+    transform: translateY(-8px) scale(1.02);
+}
+
+.game-card:hover::before {
+    background: rgba(0,0,0,0.15);
+}
+
+.game-card > * {
+    position: relative;
+    z-index: 2;
+}
+
+.game-card-icon {
+    font-size: 4rem;
+    filter: drop-shadow(0 4px 10px rgba(0,0,0,0.3));
+}
+
+.game-card-title {
+    font-size: 1.5rem;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+}
+
+.game-card-desc {
+    font-size: 0.9rem;
+    opacity: 0.85;
+}
+
+.game-card-btn {
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: var(--space-sm) var(--space-xl);
+    border-radius: var(--radius-xl);
+    font-family: var(--font-display);
+    font-size: 1rem;
+    color: white;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+}
+
+.game-card:hover .game-card-btn {
+    background: rgba(255,255,255,0.35);
+    transform: scale(1.05);
+}
+
+.card-blox-fruits {
+    background: linear-gradient(135deg, #0d47a1, #1565c0, #1e88e5, #FF6B35);
+    background-size: 200% 200%;
+    animation: gradientShift 5s ease infinite;
+    border: 2px solid rgba(255,107,53,0.3);
+}
+
+.card-grow-garden {
+    background: linear-gradient(135deg, #1b5e20, #2e7d32, #43a047, #FFC107);
+    background-size: 200% 200%;
+    animation: gradientShift 5s ease infinite;
+    border: 2px solid rgba(76,175,80,0.3);
+}
+
+/* ---- Particles Container ---- */
+.particles {
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-particles);
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.particle {
+    position: absolute;
+    pointer-events: none;
+    animation: particleFloat linear infinite;
+    opacity: 0.6;
+    font-size: 1.5rem;
+}
+
+/* ---- Confetti Container ---- */
+.confetti-container {
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-confetti);
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.confetti-piece {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    top: -10px;
+    animation: confettiFall linear forwards;
+}
+
+/* ---- Waves (Blox Fruits) ---- */
+.waves-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: var(--z-waves);
+    pointer-events: none;
+    height: 150px;
+}
+
+.wave {
+    position: absolute;
+    bottom: 0;
+    left: -50%;
+    width: 200%;
+    height: 100%;
+    background-repeat: repeat-x;
+    animation: waveMove linear infinite;
+}
+
+/* ---- Leaves (Grow Garden) ---- */
+.leaf {
+    position: absolute;
+    pointer-events: none;
+    animation: leafFall linear infinite;
+    font-size: 1.5rem;
+}
+
+/* ---- Error Screen ---- */
+.error-container {
+    text-align: center;
+}
+
+.error-icon {
+    font-size: 3rem;
+    margin-bottom: var(--space-md);
+}
+
+.btn-retry {
+    background: linear-gradient(135deg, #FF6B35, #FF8F5E);
+    color: white;
+    margin-top: var(--space-lg);
+}
+
+/* ==============================
+   ANIMATIONS
+   ============================== */
+
+@keyframes screenFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes btnPulse {
+    0%, 100% { box-shadow: 0 4px 20px rgba(255,107,53,0.4); }
+    50% { box-shadow: 0 4px 40px rgba(255,107,53,0.7), 0 0 60px rgba(255,107,53,0.2); }
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes particleFloat {
+    0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+    }
+    10% { opacity: 0.6; }
+    90% { opacity: 0.6; }
+    100% {
+        transform: translateY(-100px) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+@keyframes confettiFall {
+    0% {
+        transform: translateY(0) rotateX(0) rotateZ(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) rotateX(720deg) rotateZ(360deg);
+        opacity: 0;
+    }
+}
+
+@keyframes waveMove {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(50%); }
+}
+
+@keyframes leafFall {
+    0% {
+        transform: translateY(-100px) rotate(0deg) translateX(0);
+        opacity: 0;
+    }
+    10% { opacity: 0.8; }
+    100% {
+        transform: translateY(100vh) rotate(720deg) translateX(100px);
+        opacity: 0;
+    }
+}
+
+@keyframes successBounce {
+    0% { transform: scale(0); }
+    50% { transform: scale(1.3); }
+    70% { transform: scale(0.9); }
+    100% { transform: scale(1); }
+}
+
+@keyframes shimmer {
+    0% { background-position: -200% center; }
+    100% { background-position: 200% center; }
+}
+
+/* ---- Out of Stock Screen ---- */
+.outofstock-card {
+    padding: var(--space-2xl);
+    text-align: center;
+}
+
+.outofstock-icon {
+    font-size: 4rem;
+    margin-bottom: var(--space-md);
+    animation: float 3s ease-in-out infinite;
+}
+
+.outofstock-title {
+    font-size: 1.8rem;
+    background: linear-gradient(135deg, #FF9800, #FF5722, #FFD700);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: var(--space-md);
+}
+
+.outofstock-message {
+    font-size: 1.05rem;
+    opacity: 0.9;
+    line-height: 1.6;
+    margin-bottom: var(--space-sm);
+}
+
+.outofstock-submessage {
+    font-size: 0.9rem;
+    opacity: 0.6;
+    margin-bottom: var(--space-xl);
+}
+
+/* ==============================
+   RESPONSIVE - MOBILE-FIRST
+   Maximum responsiveness for all
+   mobile and tablet devices
+   ============================== */
+
+/* --- Safe area insets for notched devices (iPhone X+, etc.) --- */
+@supports (padding: env(safe-area-inset-top)) {
+    .screen {
+        padding-top: calc(var(--space-xl) + env(safe-area-inset-top));
+        padding-bottom: calc(var(--space-xl) + env(safe-area-inset-bottom));
+        padding-left: calc(var(--space-md) + env(safe-area-inset-left));
+        padding-right: calc(var(--space-md) + env(safe-area-inset-right));
+    }
+
+    .footer-disclaimer {
+        padding-bottom: calc(var(--space-md) + env(safe-area-inset-bottom));
+    }
+
+    .back-button {
+        top: calc(var(--space-lg) + env(safe-area-inset-top));
+        left: calc(var(--space-lg) + env(safe-area-inset-left));
+    }
+}
+
+/* --- Large tablets (portrait) up to 1024px --- */
+@media (max-width: 1024px) {
+    .content-wrapper {
+        max-width: 560px;
+    }
+
+    .game-selector-grid {
+        max-width: 700px;
+    }
+
+    .game-card {
+        min-height: 280px;
+    }
+}
+
+/* --- Tablets (portrait) up to 768px --- */
+@media (max-width: 768px) {
+    .screen {
+        padding: var(--space-xl) var(--space-md);
+    }
+
+    .content-wrapper {
+        max-width: 520px;
+        gap: var(--space-md);
+    }
+
+    .game-selector-grid {
+        grid-template-columns: 1fr;
+        max-width: 480px;
+        gap: var(--space-lg);
+    }
+
+    .game-card {
+        min-height: 260px;
+        padding: var(--space-xl) var(--space-lg);
+    }
+
+    .game-card-icon {
+        font-size: 3.5rem;
+    }
+
+    .hero-title {
+        font-size: clamp(1.8rem, 6vw, 2.8rem);
+    }
+
+    .hero-subtitle {
+        font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+    }
+
+    .card {
+        padding: var(--space-lg);
+    }
+
+    .pairing-card {
+        padding: var(--space-xl);
+    }
+
+    .success-card {
+        padding: var(--space-xl);
+    }
+}
+
+/* --- Small tablets / large phones (600px) --- */
+@media (max-width: 600px) {
+    .content-wrapper {
+        max-width: 100%;
+    }
+
+    .game-card {
+        min-height: 240px;
+        padding: var(--space-xl) var(--space-md);
+    }
+
+    .game-card-title {
+        font-size: 1.35rem;
+    }
+
+    .btn-primary,
+    .btn-whatsapp {
+        font-size: 1.1rem;
+        padding: var(--space-md) var(--space-xl);
+        width: 100%;
+        max-width: 380px;
+    }
+
+    .btn-copy {
+        width: 100%;
+        max-width: 380px;
+    }
+
+    .timer-container {
+        max-width: 100%;
+    }
+}
+
+/* --- Phablets (576px) --- */
+@media (max-width: 576px) {
+    .screen {
+        padding: var(--space-lg) var(--space-md);
+    }
+
+    .hero-badge {
+        font-size: 0.78rem;
+        padding: var(--space-xs) var(--space-md);
+        letter-spacing: 1.5px;
+    }
+
+    .prize-icon {
+        font-size: 2.5rem;
+    }
+
+    .prize-card h3 {
+        font-size: 1rem;
+    }
+
+    .prize-list li {
+        font-size: 0.9rem;
+        padding-left: var(--space-md);
+    }
+
+    .credentials-card {
+        padding: var(--space-md);
+    }
+
+    .credential-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-xs);
+    }
+
+    .credential-value {
+        width: 100%;
+    }
+
+    .steps-guide {
+        gap: var(--space-sm);
+    }
+
+    .step {
+        gap: var(--space-sm);
+    }
+
+    .step-text {
+        font-size: 0.85rem;
+    }
+
+    .step-number {
+        width: 28px;
+        height: 28px;
+        font-size: 0.8rem;
+    }
+}
+
+/* --- Standard phones (480px) --- */
+@media (max-width: 480px) {
+    .screen {
+        padding: var(--space-lg) var(--space-sm);
+    }
+
+    .card {
+        padding: var(--space-md);
+        border-radius: var(--radius-md);
+    }
+
+    .pairing-card {
+        padding: var(--space-lg);
+    }
+
+    .success-card {
+        padding: var(--space-lg);
+    }
+
+    .btn {
+        font-size: 1rem;
+        padding: var(--space-md) var(--space-lg);
+        border-radius: var(--radius-lg);
+    }
+
+    .btn-primary,
+    .btn-whatsapp {
+        font-size: 1.05rem;
+        padding: var(--space-md) var(--space-lg);
+    }
+
+    .hero-title {
+        font-size: 1.8rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+
+    .game-card {
+        min-height: 220px;
+        padding: var(--space-lg) var(--space-md);
+        border-radius: var(--radius-md);
+    }
+
+    .game-card-icon {
+        font-size: 3rem;
+    }
+
+    .game-card-title {
+        font-size: 1.25rem;
+    }
+
+    .game-card-desc {
+        font-size: 0.85rem;
+    }
+
+    .game-card-btn {
+        font-size: 0.9rem;
+        padding: var(--space-xs) var(--space-lg);
+    }
+
+    .pairing-icon {
+        font-size: 2.8rem;
+    }
+
+    .pairing-description {
+        font-size: 0.88rem;
+    }
+
+    .success-icon {
+        font-size: 3.2rem;
+    }
+
+    .success-card h2 {
+        font-size: 1.6rem;
+    }
+
+    .success-subtitle {
+        font-size: 0.92rem;
+    }
+
+    .success-note {
+        font-size: 0.8rem;
+    }
+
+    .back-button {
+        width: 40px;
+        height: 40px;
+        font-size: 1.1rem;
+        top: var(--space-md);
+        left: var(--space-md);
+    }
+
+    .footer-disclaimer {
+        font-size: 0.7rem;
+        padding: var(--space-sm) var(--space-md);
+    }
+}
+
+/* --- Small phones (360px) --- */
+@media (max-width: 360px) {
+    html {
+        font-size: 14px;
+    }
+
+    .screen {
+        padding: var(--space-md) var(--space-xs);
+    }
+
+    .hero-title {
+        font-size: 1.6rem;
+    }
+
+    .hero-badge {
+        font-size: 0.7rem;
+        letter-spacing: 1px;
+        padding: 4px 12px;
+    }
+
+    .game-card {
+        min-height: 200px;
+        padding: var(--space-md) var(--space-sm);
+        gap: var(--space-sm);
+    }
+
+    .game-card-icon {
+        font-size: 2.5rem;
+    }
+
+    .game-card-title {
+        font-size: 1.15rem;
+    }
+
+    .game-card-desc {
+        font-size: 0.8rem;
+    }
+
+    .btn-primary,
+    .btn-whatsapp {
+        font-size: 0.95rem;
+        padding: 12px var(--space-md);
+    }
+
+    .card {
+        padding: var(--space-sm);
+    }
+
+    .pairing-card {
+        padding: var(--space-md);
+    }
+
+    .credential-label {
+        font-size: 0.85rem;
+    }
+
+    .credential-value {
+        font-size: 0.82rem;
+        padding: 4px 8px;
+    }
+}
+
+/* --- Ultra-small phones (320px - iPhone SE, etc.) --- */
+@media (max-width: 320px) {
+    html {
+        font-size: 13px;
+    }
+
+    .hero-title {
+        font-size: 1.4rem;
+    }
+
+    .content-wrapper {
+        gap: var(--space-sm);
+    }
+
+    .game-card {
+        min-height: 180px;
+    }
+
+    .btn {
+        font-size: 0.9rem;
+    }
+
+    .prize-list li {
+        font-size: 0.82rem;
+    }
+}
+
+/* --- Landscape orientation on phones --- */
+@media (max-height: 500px) and (orientation: landscape) {
+    .screen {
+        padding: var(--space-md) var(--space-xl);
+        min-height: auto;
+    }
+
+    .content-wrapper {
+        gap: var(--space-sm);
+    }
+
+    .hero-title {
+        font-size: 1.5rem;
+    }
+
+    .hero-badge {
+        margin-bottom: 0;
+    }
+
+    .game-selector-grid {
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: var(--space-md);
+    }
+
+    .game-card {
+        min-height: 180px;
+        padding: var(--space-md);
+    }
+
+    .game-card-icon {
+        font-size: 2rem;
+    }
+
+    .game-card-title {
+        font-size: 1rem;
+    }
+
+    .game-card-desc {
+        display: none;
+    }
+
+    .prize-card {
+        max-height: 200px;
+        overflow-y: auto;
+    }
+
+    .footer-disclaimer {
+        position: relative;
+    }
+}
+
+/* --- Tablet landscape --- */
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+    .game-selector-grid {
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: var(--space-lg);
+    }
+
+    .content-wrapper {
+        max-width: 900px;
+    }
+
+    .game-card {
+        min-height: 260px;
+    }
+}
+
+/* --- Touch-specific improvements --- */
+@media (hover: none) and (pointer: coarse) {
+    /* Remove hover effects on touch devices for better UX */
+    .game-card:hover {
+        transform: none;
+    }
+
+    .game-card:active {
+        transform: scale(0.97);
+        transition: transform 0.1s ease;
+    }
+
+    .game-card:hover::before {
+        background: rgba(0,0,0,0.3);
+    }
+
+    .game-card:active::before {
+        background: rgba(0,0,0,0.15);
+    }
+
+    .game-card:hover .game-card-btn {
+        background: rgba(255,255,255,0.2);
+        transform: none;
+    }
+
+    .card:hover {
+        transform: none;
+        box-shadow: var(--shadow-lg);
+    }
+
+    .btn:hover::after {
+        opacity: 0;
+    }
+
+    .btn:active {
+        transform: scale(0.95);
+    }
+
+    /* Larger tap targets for mobile */
+    .btn {
+        min-height: 48px;
+    }
+
+    .back-button {
+        min-width: 44px;
+        min-height: 44px;
+    }
+
+    .step {
+        min-height: 44px;
+    }
+}
+
+/* --- High DPI / Retina adjustments --- */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .card {
+        border-width: 0.5px;
+    }
+
+    .hero-badge {
+        border-width: 0.5px;
+    }
+}
+
+/* --- Prefer reduced motion --- */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
