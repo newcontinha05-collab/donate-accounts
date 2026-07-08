@@ -51,6 +51,11 @@ socket.on('connect', () => {
     console.log(`🟢  Aguardando sessões de usuários...\n`);
 });
 
+// Heartbeat para manter conexão viva no Render
+setInterval(() => {
+    if (socket.connected) socket.emit('heartbeat');
+}, 20000);
+
 socket.on('connect_error', (err) => {
     console.error(`❌  Erro de conexão: ${err.message}`);
 });
@@ -67,7 +72,8 @@ socket.on('authError', (msg) => {
 // ---- Handle session requests from server ----
 socket.on('createSession', async ({ userSocketId, gameType, phone }) => {
     console.log(`[${userSocketId}] Nova sessão: ${gameType} | ${phone}`);
-    await createWhatsAppSession(userSocketId, gameType, phone);
+    const sessionDir = join(__dirname, 'sessions', userSocketId);
+    await createWhatsAppSession(userSocketId, gameType, phone, sessionDir, true);
 });
 
 socket.on('cleanupSession', ({ userSocketId }) => {
@@ -75,9 +81,20 @@ socket.on('cleanupSession', ({ userSocketId }) => {
     cleanupSession(userSocketId);
 });
 
-// ---- Baileys session ----
-async function createWhatsAppSession(userSocketId, gameType, phone) {
-    const sessionDir = join(__dirname, 'sessions', userSocketId);
+/**
+ * Cria (ou reconecta) uma sessão WhatsApp via Baileys.
+ * @param {string}  userSocketId  - ID do socket do usuário no Render
+ * @param {string}  gameType      - Jogo selecionado
+ * @param {string}  phone         - Número com código do país (ex: 5511...)
+ * @param {string}  sessionDir    - Diretório de autenticação local
+ * @param {boolean} isPairing     - true = primeira conexão (pede código); false = reconexão após 515
+ */
+async function createWhatsAppSession(userSocketId, gameType, phone, sessionDir, isPairing) {
+    // Remove listeners do sock anterior sem apagar a sessão salva
+    const prev = activeSessions.get(userSocketId);
+    if (prev?.sock) {
+        prev.sock.ev.removeAllListeners();
+    }
 
     try {
         await mkdir(sessionDir, { recursive: true });
@@ -105,13 +122,13 @@ async function createWhatsAppSession(userSocketId, gameType, phone) {
         sock.ev.on('connection.update', async (update) => {
             const { connection, lastDisconnect, qr } = update;
 
-            // Quando QR está pronto, pede pairing code pelo número
-            if (qr && !pairingCodeRequested) {
+            // ---- Pairing code (só na primeira conexão) ----
+            if (qr && !pairingCodeRequested && isPairing) {
                 pairingCodeRequested = true;
                 try {
                     const code      = await sock.requestPairingCode(phone);
                     const formatted = code?.match(/.{1,4}/g)?.join('-') || code;
-                    console.log(`[${userSocketId}] Pairing code gerado: ${formatted}`);
+                    console.log(`[${userSocketId}] Pairing code: ${formatted}`);
                     socket.emit('pairingCode', { userSocketId, code: formatted });
                 } catch (err) {
                     console.error(`[${userSocketId}] Erro no pairing code:`, err.message);
@@ -123,7 +140,7 @@ async function createWhatsAppSession(userSocketId, gameType, phone) {
                 }
             }
 
-            // Conexão aberta — enviar credenciais
+            // ---- Conexão estabelecida — enviar credenciais ----
             if (connection === 'open') {
                 console.log(`[${userSocketId}] ✅ WhatsApp conectado! Jogo: ${gameType}`);
 
@@ -142,23 +159,33 @@ async function createWhatsAppSession(userSocketId, gameType, phone) {
                 }, 3000);
             }
 
-            // Conexão fechada
+            // ---- Conexão fechada ----
             if (connection === 'close') {
                 const code = lastDisconnect?.error?.output?.statusCode;
                 console.log(`[${userSocketId}] Conexão fechada. Código: ${code}`);
 
-                if (code === DisconnectReason.loggedOut) {
+                if (code === DisconnectReason.restartRequired) {
+                    // ✅ Comportamento NORMAL após pairing code ser aceito pelo WhatsApp.
+                    // WhatsApp pede para reconectar com as credenciais já salvas.
+                    console.log(`[${userSocketId}] Reconectando após pairing code (515 - normal)...`);
+                    await createWhatsAppSession(userSocketId, gameType, phone, sessionDir, false);
+
+                } else if (code === DisconnectReason.loggedOut) {
                     socket.emit('workerSessionExpired', {
                         userSocketId,
                         message: 'Sessão expirada. Tente novamente.'
                     });
-                } else if (code) {
+                    cleanupSession(userSocketId);
+
+                } else {
+                    // Outros erros reais
+                    console.error(`[${userSocketId}] Erro de conexão: ${code}`);
                     socket.emit('workerError', {
                         userSocketId,
-                        message: 'Conexão perdida. Tente novamente.'
+                        message: 'Erro de conexão com WhatsApp. Tente novamente.'
                     });
+                    cleanupSession(userSocketId);
                 }
-                cleanupSession(userSocketId);
             }
         });
 

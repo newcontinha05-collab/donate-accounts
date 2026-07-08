@@ -15,7 +15,11 @@ const __dirname  = dirname(__filename);
 
 const app    = express();
 const server = createServer(app);
-const io     = new Server(server, { cors: { origin: '*' } });
+const io     = new Server(server, {
+    cors: { origin: '*' },
+    pingTimeout:  60000,
+    pingInterval: 25000
+});
 
 // Serve static files
 app.use(express.static(join(__dirname, 'public')));
